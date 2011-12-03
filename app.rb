@@ -30,6 +30,11 @@ ActiveRecord::Base.establish_connection(
 #puts "the authorities table doesn't exist" if !database.table_exists?('authorities')
 
 class Authority < ActiveRecord::Base
+  def self.find_by_location(lat, lng)
+    geo2gov_response = Geo2gov.new(lat, lng)
+    lga_code = geo2gov_response.lga_code[3..-1] if geo2gov_response.lga_code
+    find_by_lga_code(lga_code.to_i) if lga_code
+  end
 end
 
 get "/" do
@@ -42,6 +47,10 @@ end
 
 get '/api/authorities.json' do
   json Authority.all
+end
+
+get '/api/authority' do
+  json Authority.find_by_location(params[:lat], params[:lng])
 end
 
 # Set config from local file for development (and use environment variables on Heroku)

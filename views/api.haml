@@ -1,16 +1,24 @@
 !!!
 %html
   %head
-    %title We have an API
+    %title We have an API!
   %body
-    %h1 We have an API
+    %h1 We have an API!
 
     %p
       It's super-basic right now. The data is occasionally sucked from a
       <a href="https://docs.google.com/spreadsheet/ccc?key=0AppM8FtCInYXdGxRZGpCY0t6eDV5aFNwSEFPWnJqV3c&hl=en_GB#gid=0">public editable spreadsheet</a>. If you see any errors in the data please fix it in the source spreadsheet and let us know so we can load it back in again.
 
+    %p
+      All data is returned as json.
+
     %h2 Get all local authorities (councils)
 
     %code
       GET <a href="/api/authorities.json">http://tweetmycouncil.herokuapp.com/api/authorities.json</a>
-  
+
+    %h2 Find authority by location (latitude and longitude)
+
+    %code
+      GET <a href="/api/authority?lat=-33.8736&lng=151.2076">http://tweetmycouncil.herokuapp.com/api/authority?lat=-33.8736&lng=151.2076</a>
+      
