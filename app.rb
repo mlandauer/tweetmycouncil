@@ -71,8 +71,13 @@ EM.schedule do
       geo2gov_response = Geo2gov.new(status.geo.coordinates[0], status.geo.coordinates[1])
       lga_code = geo2gov_response.lga_code[3..-1] if geo2gov_response.lga_code
       if lga_code
-        puts "Found LGA code"
-        response = "#{responses.sample}: #{lga_code}"
+        puts "Found LGA code #{lga_code}"
+        authority = Authority.find_by_lga_code(lga_code.to_i)
+        if authority
+          response = "#{responses.sample}: #{authority.name}"
+        else
+          response = "#{responses.sample}: #{lga_code}"
+        end
       else
         response = "#{responses.sample}: #{status.geo.coordinates}"
       end
