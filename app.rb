@@ -31,8 +31,21 @@ EM.schedule do
 
   client = TweetStream::Client.new
   client.track('#tmyc') do |status|
-    # Now Tweet Hello back to the person that sent this
-    Twitter.update("@#{status.user.screen_name} Hello! (#{rand(500)})", :in_reply_to_status_id => status.id.to_i)
+    if status.geo
+      responses = [
+        "Crikey! I can see you",
+        "I've found your flamin location"
+      ]
+      response = "#{responses.sample}: #{status.geo.coordinates}"
+    else
+      responses = [
+        "I can't find where the bloody hell you are",
+        "Can't find any location data on your tweet, mate",
+        "Strewth, you need to add location data"
+      ]
+      response = responses.sample
+    end
+    Twitter.update("@#{status.user.screen_name} #{response} (#{rand(500)})", :in_reply_to_status_id => status.id.to_i)
   end
   client.on_error do |message|
     p message
