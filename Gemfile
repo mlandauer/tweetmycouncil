@@ -7,6 +7,7 @@ gem "thin"
 gem "twitter"
 gem 'httparty'
 gem "nokogiri"
+gem 'actionmailer'
 
 gem "activerecord"
 gem "sinatra-activerecord"

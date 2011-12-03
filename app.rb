@@ -10,6 +10,7 @@ require 'httparty'
 require 'geo2gov'
 require 'sinatra/activerecord'
 require 'uri'
+require './mailer'
 
 # If we're on Heroku use its database else use a local sqlite3 database. Nice and easy!
 db = URI.parse(ENV['DATABASE_URL'] || 'sqlite3:///development.db')
