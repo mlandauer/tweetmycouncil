@@ -2,6 +2,7 @@ source "http://rubygems.org"
 source "http://gemcutter.org"
 
 gem "sinatra"
+gem "sinatra-contrib"
 gem "tweetstream"
 gem "thin"
 gem "twitter"

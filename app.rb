@@ -3,6 +3,7 @@
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/lib'
 
 require 'sinatra'
+require "sinatra/json"
 require 'tweetstream'
 require 'yaml'
 require 'twitter'
@@ -33,6 +34,14 @@ end
 
 get "/" do
   "Hello World!"
+end
+
+get '/api' do
+  haml :api
+end
+
+get '/api/authorities.json' do
+  json Authority.all
 end
 
 # Set config from local file for development (and use environment variables on Heroku)
