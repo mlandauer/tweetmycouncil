@@ -10,4 +10,7 @@ gem 'httparty'
 gem "activerecord"
 gem "sinatra-activerecord"
 gem "pg"
-gem "sqlite3"
+
+group :development do
+  gem "sqlite3"
+end
