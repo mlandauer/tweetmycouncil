@@ -34,6 +34,7 @@ get "/" do
   "Hello World!"
 end
 
+# Set config from local file for development (and use environment variables on Heroku)
 if File.exists? 'configuration.yaml'
   configuration = YAML.load_file('configuration.yaml')
   ENV['CONSUMER_KEY'] = configuration['consumer']['key']
