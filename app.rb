@@ -30,6 +30,10 @@ ActiveRecord::Base.establish_connection(
 class Authority < ActiveRecord::Base
 end
 
+get "/" do
+  "Hello World!"
+end
+
 if File.exists? 'configuration.yaml'
   configuration = YAML.load_file('configuration.yaml')
   ENV['CONSUMER_KEY'] = configuration['consumer']['key']
