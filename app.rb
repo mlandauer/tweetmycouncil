@@ -71,7 +71,7 @@ EM.schedule do
         authority = Authority.find_by_lga_code(lga_code.to_i)
         if authority
           if authority.twitter_screen_name
-            response = "#{positive_response}: They are #{authority.twitter_screen_name} on Twitter"
+            response = "#{positive_response}: They are #{authority.twitter_screen_name[1..-1]} on Twitter"
           elsif authority.contact_email
             response = "#{positive_response}: They're not on Twitter, try #{authority.contact_email}"
           elsif authority.website_url
