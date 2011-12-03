@@ -100,15 +100,15 @@ EM.error_handler{ |e|
 
 def negative_response
   responses = [
-    "I can't find where the bloody hell you are",
+    "I can't find where the bloody hell you are - you need to geotag your tweet",
     "Can't find any location data on your tweet, mate",
-    "Strewth, you need to add location data"
+    "Strewth, you need to add location data to your tweet"
   ].sample
 end
 
 def positive_response
   responses = [
-    "Crikey! I can see you",
-    "I've found your flamin location"
+    "Crikey! I found your council",
+    "I've found your flamin council"
   ].sample
 end
