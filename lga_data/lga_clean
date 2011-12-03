@@ -1,0 +1,46 @@
+#!/usr/bin/perl
+#
+# Clean up / simplify LGA data from ABS
+# http://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/1270.0.55.003July%202011?OpenDocument
+#
+
+use strict;
+use warnings;
+use File::Basename;
+use Getopt::Long qw(:config no_ignore_case bundling);
+use Text::CSV_XS;
+
+$|++;
+
+my $verbose = 0;
+die unless GetOptions(
+  'verbose|v+'      => \$verbose,
+);
+
+my $csv = Text::CSV_XS->new;
+
+my $last;
+while (<>) {
+  $csv->parse($_);
+  my @fields = $csv->fields;
+
+  my $lga = $fields[1];
+  next if $lga =~ m/^LGA/;           # skip header line
+  next if $last and $lga eq $last;   # skip if already processed
+
+  my $name = $fields[2];
+  my ($city, $type);
+  if ($name =~ m/^ (.*?) \s+ \( (\w+) \) /x) {
+    $city = $1;
+    $type = $2;
+  } 
+  else {
+    $city = $name;
+    $type = '';
+  }
+
+  print join(',', $lga, $city, $type, @fields[3,4]) . "\n";
+
+  $last = $lga;
+}
+
