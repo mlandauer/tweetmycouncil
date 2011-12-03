@@ -9,6 +9,7 @@ gem "twitter"
 gem 'httparty'
 gem "nokogiri"
 gem 'actionmailer'
+gem 'haml'
 
 gem "activerecord"
 gem "sinatra-activerecord"
