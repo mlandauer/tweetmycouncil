@@ -4,15 +4,20 @@ require 'sinatra'
 require 'tweetstream'
 require 'yaml'
 
-configuration = YAML.load_file('configuration.yaml')
+if File.exists? 'configuration.yaml'
+  configuration = YAML.load_file('configuration.yaml')
+  ENV['CONSUMER_KEY'] = configuration['consumer']['key']
+  ENV['CONSUMER_SECRET'] = configuration['consumer']['secret']
+  ENV['OAUTH_TOKEN'] = configuration['oauth']['token']
+  ENV['OAUTH_TOKEN_SECRET'] = configuration['oauth']['token_secret']
+end
 
 EM.schedule do
-  # Just good enough for a local dev install at the moment
   TweetStream.configure do |config|
-    config.consumer_key = configuration['consumer']['key']
-    config.consumer_secret = configuration['consumer']['secret']
-    config.oauth_token = configuration['oauth']['token']
-    config.oauth_token_secret = configuration['oauth']['token_secret']
+    config.consumer_key = ENV['CONSUMER_KEY']
+    config.consumer_secret = ENV['CONSUMER_SECRET']
+    config.oauth_token = ENV['OAUTH_TOKEN']
+    config.oauth_token_secret = ENV['OAUTH_TOKEN_SECRET']
     config.auth_method = :oauth
   end
 
