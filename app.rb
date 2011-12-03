@@ -49,7 +49,7 @@ get '/api/authorities.json' do
   json Authority.all
 end
 
-get '/api/authority' do
+get '/api/authority.json' do
   json Authority.find_by_location(params[:lat], params[:lng])
 end
 
