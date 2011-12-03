@@ -3,6 +3,7 @@
 require 'sinatra'
 require 'tweetstream'
 require 'yaml'
+require 'twitter'
 
 if File.exists? 'configuration.yaml'
   configuration = YAML.load_file('configuration.yaml')
@@ -21,11 +22,17 @@ EM.schedule do
     config.auth_method = :oauth
   end
 
+  Twitter.configure do |config|
+    config.consumer_key = ENV['CONSUMER_KEY']
+    config.consumer_secret = ENV['CONSUMER_SECRET']
+    config.oauth_token = ENV['OAUTH_TOKEN']
+    config.oauth_token_secret = ENV['OAUTH_TOKEN_SECRET']
+  end
+
   client = TweetStream::Client.new
-  #client.track('#tmyc') do |status|
-  client.sample do |status|
-    # Just writes out a text of a random tweet for the time being
-    puts status.text
+  client.track('#tmyc') do |status|
+    # Now Tweet Hello back to the person that sent this
+    Twitter.update("@#{status.user.screen_name} Hello! (#{rand(500)})", :in_reply_to_status_id => status.id.to_i)
   end
   client.on_error do |message|
     p message
