@@ -109,6 +109,7 @@ GEM
     twitter-text (1.4.13)
       activesupport
     tzinfo (0.3.31)
+    yajl-ruby (1.1.0)
 
 PLATFORMS
   ruby
@@ -127,3 +128,4 @@ DEPENDENCIES
   thin
   tweetstream
   twitter
+  yajl-ruby

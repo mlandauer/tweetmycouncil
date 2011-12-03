@@ -10,6 +10,7 @@ gem 'httparty'
 gem "nokogiri"
 gem 'actionmailer'
 gem 'haml'
+gem "yajl-ruby"
 
 gem "activerecord"
 gem "sinatra-activerecord"
