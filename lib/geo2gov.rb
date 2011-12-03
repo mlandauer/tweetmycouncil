@@ -10,7 +10,7 @@ class Geo2gov
   
   def lga_code
     census = @response["Census"]
-    census.first["LGA"] if census
+    census.first["LGA"] if census && !census.empty?
   end
   
   def jurisdictions
