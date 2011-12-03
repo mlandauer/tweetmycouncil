@@ -102,7 +102,7 @@ EM.schedule do
         )
       end
     else
-      Twitter.update("@#{status.user.screen_name} You need to add geo information to your Tweet so I know where you are",
+      Twitter.update("@#{status.user.screen_name} You need to add location information to your Tweet so I know where you are",
         :in_reply_to_status_id => status.id.to_i
       )
     end
