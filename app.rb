@@ -74,6 +74,8 @@ EM.schedule do
             response = "#{positive_response}: They are #{authority.twitter_screen_name}"
           elsif authority.contact_email
             response = "#{positive_response}: They are #{authority.contact_email}"
+          elsif authority.website_url
+            response = "#{positive_response}: They are #{authority.website_url}"
           else
             response = "#{positive_response}: They are #{authority.name}"
           end
