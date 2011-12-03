@@ -74,8 +74,9 @@ EM.schedule do
           if authority.twitter_screen_name
             Twitter.update("#{authority.twitter_screen_name} RT @#{status.user.screen_name}: #{status.text}")
           elsif authority.contact_email
+            AuthorityMailer.email(status.text, "https://twitter.com/#{status.user.screen_name}/status/#{status.id_str}").deliver
             Twitter.update(
-              "@#{status.user.screen_name} #{authority.name} is not on Twitter, try #{authority.contact_email}",
+              "@#{status.user.screen_name} #{authority.name} is not on Twitter, I've emailed your tweet to #{authority.contact_email}",
               :in_reply_to_status_id => status.id.to_i
             )
           elsif authority.website_url
