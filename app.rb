@@ -72,25 +72,39 @@ EM.schedule do
         authority = Authority.find_by_lga_code(lga_code.to_i)
         if authority
           if authority.twitter_screen_name
-            response = "#{positive_response}: They are #{authority.twitter_screen_name[1..-1]} on Twitter"
+            Twitter.update("#{authority.twitter_screen_name} RT @#{status.user.screen_name}: #{status.text}")
           elsif authority.contact_email
-            response = "#{positive_response}: They're not on Twitter, try #{authority.contact_email}"
+            Twitter.update(
+              "@#{status.user.screen_name} #{authority.name} is not on Twitter, try #{authority.contact_email}",
+              :in_reply_to_status_id => status.id.to_i
+            )
           elsif authority.website_url
-            response = "#{positive_response}: They're not on Twitter, try #{authority.website_url}"
+            Twitter.update(
+              "@#{status.user.screen_name} #{authority.name} is not on Twitter, try #{authority.website_url}",
+              :in_reply_to_status_id => status.id.to_i
+            )
           else
-            response = "#{positive_response}: #{authority.name} is not on twitter :("
+            Twitter.update(
+              "@#{status.user.screen_name} #{authority.name} is not on Twitter",
+              :in_reply_to_status_id => status.id.to_i
+            )
           end
         else
-          response = "#{positive_response}: #{lga_code}"
+          Twitter.update(
+            "@#{status.user.screen_name} I found you but I don't know about LGA code #{lga_code}",
+            :in_reply_to_status_id => status.id.to_i
+          )
         end
       else
-        response = "#{positive_response}: #{status.geo.coordinates}"
+        Twitter.update("@#{status.user.screen_name} I found you but it doesn't look like you're in Australia",
+          :in_reply_to_status_id => status.id.to_i
+        )
       end
     else
-      response = no_geo_response
+      Twitter.update("@#{status.user.screen_name} You need to add geo information to your Tweet so I know where you are",
+        :in_reply_to_status_id => status.id.to_i
+      )
     end
-    puts "Responding with \"@#{status.user.screen_name} #{response} (#{rand(500)})\""
-    Twitter.update("@#{status.user.screen_name} #{response} (#{rand(500)})", :in_reply_to_status_id => status.id.to_i)
   end
   client.on_error do |message|
     p message
@@ -100,18 +114,3 @@ end
 EM.error_handler{ |e|
   puts "Error raised during event loop: #{e.message}"
 }
-
-def negative_response
-  responses = [
-    "I can't find where the bloody hell you are - you need to geotag your tweet",
-    "Can't find any location data on your tweet, mate",
-    "Strewth, you need to add location data to your tweet"
-  ].sample
-end
-
-def positive_response
-  responses = [
-    "Crikey! I found your council",
-    "I've found your flamin council"
-  ].sample
-end
