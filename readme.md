@@ -8,4 +8,6 @@ You shouldn't have to know who your local council is to have these questions ans
 Configuration
 -------------
 
-For local development, copy `configuration.yaml.example` to `configuration.yaml` and set up your Twitter credentials. When deploying to Heroku, environment variables are used and are set with `heroku config:add CONSUMER_KEY=8N029N81`, etc.
+For local development, copy `configuration.yaml.example` to `configuration.yaml` and set up your Twitter credentials.
+
+When deploying to Heroku, environment variables are used and are set with `heroku config:add CONSUMER_KEY=8N029N81`, etc.
