@@ -72,7 +72,7 @@ EM.schedule do
         authority = Authority.find_by_lga_code(lga_code.to_i)
         if authority
           if authority.twitter_screen_name
-            Twitter.update("#{authority.twitter_screen_name} RT @#{status.user.screen_name}: #{status.text}")
+            Twitter.update("#{authority.twitter_screen_name} RT @#{status.user.screen_name}: #{status.text.gsub('#tmyc', '')}")
           elsif authority.contact_email
             AuthorityMailer.email(authority.contact_email, status.text, "https://twitter.com/#{status.user.screen_name}/status/#{status.id_str}").deliver
             Twitter.update(
