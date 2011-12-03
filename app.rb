@@ -64,22 +64,24 @@ EM.schedule do
     puts "Responding to tweet from @#{status.user.screen_name}"
     if status.geo
       puts "Found geo information: #{status.geo}"
-      responses = [
-        "Crikey! I can see you",
-        "I've found your flamin location"
-      ]
       geo2gov_response = Geo2gov.new(status.geo.coordinates[0], status.geo.coordinates[1])
       lga_code = geo2gov_response.lga_code[3..-1] if geo2gov_response.lga_code
       if lga_code
         puts "Found LGA code #{lga_code}"
         authority = Authority.find_by_lga_code(lga_code.to_i)
         if authority
-          response = "#{responses.sample}: #{authority.name}"
+          if authority.twitter_screen_name
+            response = "#{positive_response}: They are #{authority.twitter_screen_name}"
+          elsif authority.contact_email
+            response = "#{positive_response}: They are #{authority.contact_email}"
+          else
+            response = "#{positive_response}: They are #{authority.name}"
+          end
         else
-          response = "#{responses.sample}: #{lga_code}"
+          response = "#{positive_response}: #{lga_code}"
         end
       else
-        response = "#{responses.sample}: #{status.geo.coordinates}"
+        response = "#{positive_response}: #{status.geo.coordinates}"
       end
     else
       response = no_geo_response
@@ -96,11 +98,17 @@ EM.error_handler{ |e|
   puts "Error raised during event loop: #{e.message}"
 }
 
-def no_geo_response
+def negative_response
   responses = [
     "I can't find where the bloody hell you are",
     "Can't find any location data on your tweet, mate",
     "Strewth, you need to add location data"
-  ]
-  response = responses.sample
+  ].sample
+end
+
+def positive_response
+  responses = [
+    "Crikey! I can see you",
+    "I've found your flamin location"
+  ].sample
 end
