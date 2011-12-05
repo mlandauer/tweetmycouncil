@@ -17,8 +17,10 @@
     %code
       GET <a href="/api/authorities.json">http://tweetmycouncil.herokuapp.com/api/authorities.json</a>
 
-    %h2 Find authority by location (latitude and longitude)
+    %h2 Find authority by location (suburb, postcode, or a longitude,latitude pair)
 
     %code
-      GET <a href="/api/authority.json?lat=-33.8736&lng=151.2076">http://tweetmycouncil.herokuapp.com/api/authority.json?lat=-33.8736&lng=151.2076</a>
+      GET <a href="/api/authority.json?location=sydney">http://tweetmycouncil.herokuapp.com/api/authority.json?location=sydney</a>
+      GET <a href="/api/authority.json?location=2000">http://tweetmycouncil.herokuapp.com/api/authority.json?location=2000</a>
+      GET <a href="/api/authority.json?location=151.2076,-33.8736">http://tweetmycouncil.herokuapp.com/api/authority.json?location=151.2076,-33.8736</a>
       
