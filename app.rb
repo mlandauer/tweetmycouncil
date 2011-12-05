@@ -30,8 +30,8 @@ ActiveRecord::Base.establish_connection(
 #puts "the authorities table doesn't exist" if !database.table_exists?('authorities')
 
 class Authority < ActiveRecord::Base
-  def self.find_by_location(lat, lng)
-    geo2gov_response = Geo2gov.new(lat, lng)
+  def self.find_by_location(location)
+    geo2gov_response = Geo2gov.new(location)
     lga_code = geo2gov_response.lga_code[3..-1] if geo2gov_response.lga_code
     find_by_lga_code(lga_code.to_i) if lga_code
   end
@@ -50,7 +50,11 @@ get '/api/authorities.json' do
 end
 
 get '/api/authority.json' do
-  json Authority.find_by_location(params[:lat], params[:lng])
+  if params[:location]
+    json Authority.find_by_location(params[:location])
+  elsif params[:lng] and params[:lat]
+    json Authority.find_by_location("#{params[:lng]},#{params[:lat]}")
+  end
 end
 
 # Set config from local file for development (and use environment variables on Heroku)
@@ -83,7 +87,7 @@ EM.schedule do
     puts "Responding to tweet from @#{status.user.screen_name}"
     if status.geo
       puts "Found geo information: #{status.geo}"
-      geo2gov_response = Geo2gov.new(status.geo.coordinates[0], status.geo.coordinates[1])
+      geo2gov_response = Geo2gov.new("#{status.geo.coordinates[1]},#{status.geo.coordinates[0]}")
       lga_code = geo2gov_response.lga_code[3..-1] if geo2gov_response.lga_code
       if lga_code
         puts "Found LGA code #{lga_code}"

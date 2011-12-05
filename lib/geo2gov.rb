@@ -3,9 +3,8 @@ class Geo2gov
   include HTTParty
   base_uri 'geo2gov.com.au'
   
-  def initialize(lat, lng)
-    @lat, @lng = lat, lng
-    @response = self.class.get "http://geo2gov.com.au/json?location=#{lng}+#{lat}"
+  def initialize(location)
+    @response = self.class.get "http://geo2gov.com.au/json?location=#{location}"
   end
   
   def lga_code
