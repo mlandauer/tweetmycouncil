@@ -1,12 +1,6 @@
-require File.dirname(__FILE__) + '/../app'
-require 'rspec'
-require 'rack/test'
-
-set :environment, :test
+require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe 'The Tweet My Council App' do
-  include Rack::Test::Methods
-
   def app
     Sinatra::Application
   end
