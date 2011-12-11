@@ -67,13 +67,10 @@ if File.exists? 'configuration.yaml'
 end
 
 def respond_to_tweet(status)
-  puts "Responding to tweet from @#{status.user.screen_name}"
   if status.geo
-    puts "Found geo information: #{status.geo}"
     geo2gov_response = Geo2gov.new("#{status.geo.coordinates[1]},#{status.geo.coordinates[0]}")
     lga_code = geo2gov_response.lga_code[3..-1] if geo2gov_response.lga_code
     if lga_code
-      puts "Found LGA code #{lga_code}"
       authority = Authority.find_by_lga_code(lga_code.to_i)
       if authority
         if authority.twitter_screen_name
