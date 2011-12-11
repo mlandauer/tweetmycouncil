@@ -88,16 +88,12 @@ end
 
 def respond_to_tweet(status)
   if status.geo
-    geo2gov_response = Geo2gov.new("#{status.geo.coordinates[1]},#{status.geo.coordinates[0]}")
-    lga_code = geo2gov_response.lga_code[3..-1] if geo2gov_response.lga_code
-    if lga_code
-      authority = Authority.find_by_lga_code(lga_code.to_i)
-      if authority
-        if authority.twitter_screen_name
-          Twitter.update("#{authority.twitter_screen_name} RT @#{status.user.screen_name}: #{status.text.gsub('#tmyc', '')}")
-        elsif authority.contact_email
-          AuthorityMailer.email(authority.contact_email, status.text.gsub('#tmyc', ''), "https://twitter.com/#{status.user.screen_name}/status/#{status.id_str}").deliver
-        end
+    authority = Authority.find_by_location("#{status.geo.coordinates[1]},#{status.geo.coordinates[0]}")
+    if authority
+      if authority.twitter_screen_name
+        Twitter.update("#{authority.twitter_screen_name} RT @#{status.user.screen_name}: #{status.text.gsub('#tmyc', '')}")
+      elsif authority.contact_email
+        AuthorityMailer.email(authority.contact_email, status.text.gsub('#tmyc', ''), "https://twitter.com/#{status.user.screen_name}/status/#{status.id_str}").deliver
       end
     end
   end
