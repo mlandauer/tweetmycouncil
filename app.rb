@@ -80,10 +80,10 @@ def response_to_tweet(status, lga_code, authority)
           "#{authority.name} is not on Twitter"
         end
       else
-        "I found you but I don't know about LGA code #{lga_code}"
+        "Oh no! Something's wrong. I can see where you are but I can't figure out which council you're in"
       end
     else
-      "I found you but it doesn't look like you're in Australia"
+      "Oh no! Something's wrong. I can see where you are but I can't figure out which council you're in"
     end
   else
     "You need to add location information to your Tweet so I know where you are"

@@ -30,7 +30,7 @@ describe 'The Tweet My Council App' do
 
       it "should say there's a problem if geo2gov doesn't know the lga code" do
         Geo2gov.should_receive(:new).with("151.2076,-33.8736").and_return(mock(:lga_code => nil))
-        Twitter.should_receive(:update).with("@matthewlandauer I found you but it doesn't look like you're in Australia",
+        Twitter.should_receive(:update).with("@matthewlandauer Oh no! Something's wrong. I can see where you are but I can't figure out which council you're in",
           :in_reply_to_status_id => 1001)
 
         respond_to_tweet(status)
@@ -39,7 +39,7 @@ describe 'The Tweet My Council App' do
       it "should say there's a problem if the lga code isn't known in the authorities list" do
         Geo2gov.should_receive(:new).with("151.2076,-33.8736").and_return(mock(:lga_code => "LGA123"))
         Authority.should_receive(:find_by_lga_code).with(123).and_return(nil)
-        Twitter.should_receive(:update).with("@matthewlandauer I found you but I don't know about LGA code 123",
+        Twitter.should_receive(:update).with("@matthewlandauer Oh no! Something's wrong. I can see where you are but I can't figure out which council you're in",
           :in_reply_to_status_id => 1001)
 
         respond_to_tweet(status)
