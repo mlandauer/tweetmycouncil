@@ -66,21 +66,17 @@ if File.exists? 'configuration.yaml'
   ENV['OAUTH_TOKEN_SECRET'] = configuration['oauth']['token_secret']
 end
 
-def response_to_tweet(status, lga_code, authority)
+def response_to_tweet(status, authority)
   if status.geo
-    if lga_code
-      if authority
-        if authority.twitter_screen_name
-          nil
-        elsif authority.contact_email
-          "#{authority.name} is not on Twitter, I've emailed your tweet to #{authority.contact_email}"
-        elsif authority.website_url
-          "#{authority.name} is not on Twitter, try #{authority.website_url}"
-        else
-          "#{authority.name} is not on Twitter"
-        end
+    if authority
+      if authority.twitter_screen_name
+        nil
+      elsif authority.contact_email
+        "#{authority.name} is not on Twitter, I've emailed your tweet to #{authority.contact_email}"
+      elsif authority.website_url
+        "#{authority.name} is not on Twitter, try #{authority.website_url}"
       else
-        "Oh no! Something's wrong. I can see where you are but I can't figure out which council you're in"
+        "#{authority.name} is not on Twitter"
       end
     else
       "Oh no! Something's wrong. I can see where you are but I can't figure out which council you're in"
@@ -107,7 +103,7 @@ def respond_to_tweet(status)
   end
 
   # Now send a response back to the user that sent the original tweet (if necessary)
-  r = response_to_tweet(status, lga_code, authority)
+  r = response_to_tweet(status, authority)
   Twitter.update("@#{status.user.screen_name} #{r}", :in_reply_to_status_id => status.id.to_i) if r    
 end
 
