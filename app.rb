@@ -87,9 +87,9 @@ def respond_to_tweet(status)
     authority = Authority.find_by_location("#{status.geo.coordinates[1]},#{status.geo.coordinates[0]}")
     if authority
       if authority.twitter_screen_name
-        Twitter.update("#{authority.twitter_screen_name} RT @#{status.user.screen_name}: #{status.text.gsub('#tmyc', '')}")
+        Twitter.update("#{authority.twitter_screen_name} RT @#{status.user.screen_name}: #{status.text.gsub(hashtag, '')}")
       elsif authority.contact_email
-        AuthorityMailer.email(authority.contact_email, status.text.gsub('#tmyc', ''), "https://twitter.com/#{status.user.screen_name}/status/#{status.id_str}").deliver
+        AuthorityMailer.email(authority.contact_email, status.text.gsub(hashtag, ''), "https://twitter.com/#{status.user.screen_name}/status/#{status.id_str}").deliver
       end
     end
   end
@@ -97,6 +97,11 @@ def respond_to_tweet(status)
   # Now send a response back to the user that sent the original tweet (if necessary)
   r = response_to_tweet(status, authority)
   Twitter.update("@#{status.user.screen_name} #{r}", :in_reply_to_status_id => status.id.to_i) if r    
+end
+
+def hashtag
+  # The hashtag that the app uses
+  '#tmyc'
 end
 
 EM.schedule do
@@ -116,7 +121,7 @@ EM.schedule do
   end
 
   client = TweetStream::Client.new
-  client.track('#tmyc') do |status|
+  client.track(hashtag) do |status|
     respond_to_tweet(status)
   end
   client.on_error do |message|
