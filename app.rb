@@ -67,22 +67,18 @@ if File.exists? 'configuration.yaml'
 end
 
 def response_to_tweet(status, authority)
-  if status.geo
-    if authority
-      if authority.twitter_screen_name
-        nil
-      elsif authority.contact_email
-        "#{authority.name} is not on Twitter, I've emailed your tweet to #{authority.contact_email}"
-      elsif authority.website_url
-        "#{authority.name} is not on Twitter, try #{authority.website_url}"
-      else
-        "#{authority.name} is not on Twitter"
-      end
-    else
-      "Oh no! Something's wrong. I can see where you are but I can't figure out which council you're in"
-    end
-  else
+  if status.geo.nil?
     "You need to add location information to your Tweet so I know where you are"
+  elsif authority.nil?
+    "Oh no! Something's wrong. I can see where you are but I can't figure out which council you're in"
+  elsif authority.twitter_screen_name
+    nil
+  elsif authority.contact_email
+    "#{authority.name} is not on Twitter, I've emailed your tweet to #{authority.contact_email}"
+  elsif authority.website_url
+    "#{authority.name} is not on Twitter, try #{authority.website_url}"
+  else
+    "#{authority.name} is not on Twitter"
   end
 end
 
