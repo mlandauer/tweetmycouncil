@@ -12,30 +12,8 @@ require 'geo2gov'
 require 'sinatra/activerecord'
 require 'uri'
 require './mailer'
-
-# If we're on Heroku use its database else use a local sqlite3 database. Nice and easy!
-db = URI.parse(ENV['DATABASE_URL'] || 'sqlite3:///development.db')
-
-ActiveRecord::Base.establish_connection(
-  :adapter  => db.scheme == 'postgres' ? 'postgresql' : db.scheme,
-  :host     => db.host,
-  :username => db.user,
-  :password => db.password,
-  :database => db.path[1..-1],
-  :encoding => 'utf8'
-)
-
-# At this point, you can access the ActiveRecord::Base class using the
-# "database" object:
-#puts "the authorities table doesn't exist" if !database.table_exists?('authorities')
-
-class Authority < ActiveRecord::Base
-  def self.find_by_location(location)
-    geo2gov_response = Geo2gov.new(location)
-    lga_code = geo2gov_response.lga_code[3..-1] if geo2gov_response.lga_code
-    find_by_lga_code(lga_code.to_i) if lga_code
-  end
-end
+require './database'
+require './models/authority'
 
 get "/" do
   "Hello World!"
