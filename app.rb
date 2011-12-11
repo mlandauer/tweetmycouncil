@@ -66,6 +66,30 @@ if File.exists? 'configuration.yaml'
   ENV['OAUTH_TOKEN_SECRET'] = configuration['oauth']['token_secret']
 end
 
+def response_to_tweet(status, lga_code, authority)
+  if status.geo
+    if lga_code
+      if authority
+        if authority.twitter_screen_name
+          nil
+        elsif authority.contact_email
+          "#{authority.name} is not on Twitter, I've emailed your tweet to #{authority.contact_email}"
+        elsif authority.website_url
+          "#{authority.name} is not on Twitter, try #{authority.website_url}"
+        else
+          "#{authority.name} is not on Twitter"
+        end
+      else
+        "I found you but I don't know about LGA code #{lga_code}"
+      end
+    else
+      "I found you but it doesn't look like you're in Australia"
+    end
+  else
+    "You need to add location information to your Tweet so I know where you are"
+  end
+end
+
 def respond_to_tweet(status)
   if status.geo
     geo2gov_response = Geo2gov.new("#{status.geo.coordinates[1]},#{status.geo.coordinates[0]}")
@@ -77,37 +101,14 @@ def respond_to_tweet(status)
           Twitter.update("#{authority.twitter_screen_name} RT @#{status.user.screen_name}: #{status.text.gsub('#tmyc', '')}")
         elsif authority.contact_email
           AuthorityMailer.email(authority.contact_email, status.text.gsub('#tmyc', ''), "https://twitter.com/#{status.user.screen_name}/status/#{status.id_str}").deliver
-          Twitter.update(
-            "@#{status.user.screen_name} #{authority.name} is not on Twitter, I've emailed your tweet to #{authority.contact_email}",
-            :in_reply_to_status_id => status.id.to_i
-          )
-        elsif authority.website_url
-          Twitter.update(
-            "@#{status.user.screen_name} #{authority.name} is not on Twitter, try #{authority.website_url}",
-            :in_reply_to_status_id => status.id.to_i
-          )
-        else
-          Twitter.update(
-            "@#{status.user.screen_name} #{authority.name} is not on Twitter",
-            :in_reply_to_status_id => status.id.to_i
-          )
         end
-      else
-        Twitter.update(
-          "@#{status.user.screen_name} I found you but I don't know about LGA code #{lga_code}",
-          :in_reply_to_status_id => status.id.to_i
-        )
       end
-    else
-      Twitter.update("@#{status.user.screen_name} I found you but it doesn't look like you're in Australia",
-        :in_reply_to_status_id => status.id.to_i
-      )
     end
-  else
-    Twitter.update("@#{status.user.screen_name} You need to add location information to your Tweet so I know where you are",
-      :in_reply_to_status_id => status.id.to_i
-    )
   end
+
+  # Now send a response back to the user that sent the original tweet (if necessary)
+  r = response_to_tweet(status, lga_code, authority)
+  Twitter.update("@#{status.user.screen_name} #{r}", :in_reply_to_status_id => status.id.to_i) if r    
 end
 
 EM.schedule do
