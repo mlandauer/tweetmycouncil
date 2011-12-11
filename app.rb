@@ -101,8 +101,11 @@ end
 
 def hashtag
   # The hashtag that the app uses
-  '#tmyc'
+  # In development use a different hashtag so that we don't accidently send out rubbish to people using the real service
+  settings.environment == :development ? '#tmycdev' : '#tmyc'
 end
+
+puts "Listening for the hashtag #{hashtag}..."
 
 EM.schedule do
   TweetStream.configure do |config|
