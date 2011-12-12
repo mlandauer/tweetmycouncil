@@ -52,6 +52,13 @@ post '/emails/receive' do
 end
 
 get '/emails' do
+  @emails = EmailReply.all
+  haml :'emails/index'
+end
+
+get '/emails/:id' do
+  @email = EmailReply.find(params[:id])
+  haml :'emails/show'
 end
 
 # Set config from local file for development (and use environment variables on Heroku)

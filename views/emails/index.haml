@@ -1,0 +1,12 @@
+%h1 All email replies to tweets
+
+%table
+  %tr
+    %th From
+    %th Subject
+  - @emails.each do |email|
+    %tr
+      %td= email.from
+      %td
+        %a{:href => "/emails/#{email.id}"}
+          = email.subject
