@@ -6,7 +6,7 @@
     %th Subject
   - @emails.each do |email|
     %tr
-      %td= email.from
+      %td= escape_html email.from
       %td
         %a{:href => "/emails/#{email.id}"}
           = email.subject

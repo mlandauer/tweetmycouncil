@@ -1,4 +1,4 @@
-%p From: #{@email.from}
+%p From: #{escape_html @email.from}
 %p Subject: #{@email.subject}
 %p= @email.stripped_text
 %p
