@@ -9,4 +9,4 @@
       %td= escape_html email.from
       %td
         %a{:href => "/emails/#{email.id}"}
-          = email.subject
+          = escape_html email.subject

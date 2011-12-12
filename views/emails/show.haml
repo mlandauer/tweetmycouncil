@@ -1,6 +1,6 @@
 %p From: #{escape_html @email.from}
-%p Subject: #{@email.subject}
-%p= @email.stripped_text
+%p Subject: #{escape_html @email.subject}
+%p= escape_html @email.stripped_text
 %p
   This email was in reply to
   %a{:href => @email.in_reply_to_twitter_url}
