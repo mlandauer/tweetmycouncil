@@ -6,7 +6,7 @@ if ENV['MAILGUN_SMTP_LOGIN'] && ENV['MAILGUN_SMTP_PASSWORD']
     :address        => ENV['MAILGUN_SMTP_SERVER'],
     :user_name      => ENV['MAILGUN_SMTP_LOGIN'],
     :password       => ENV['MAILGUN_SMTP_PASSWORD'],
-    :domain         => 'tweetmycouncil.herokuapp.com'
+    :domain         => 'tweetmycouncil.herokuapp.com',
     :authentication => :plain,
   }
 else
@@ -22,8 +22,7 @@ ActionMailer::Base.delivery_method = :smtp
 class AuthorityMailer < ActionMailer::Base
   def email(to, message_text, message_url)
     mail(:to => to, :bcc => "contact@openaustralia.org", :from => "noreply@openaustraliafoundation.org.au",
-      :subject => "A Citizen is contacting you via Twitter using Tweet My Council",
-      :body => "A Citizen is contacting you via Twitter using Tweet My Council\n\n#{message_text}\n\nTo see their full message visit:\n#{message_url}\n\nTo reply to the Citizen directly please sign up for Twitter and respond to them there. Please DO NOT reply to this email.\n\nTo find out more about Tweet My Council visit:\nhttp://twitter.com/TweetMyCouncil")
+      :subject => "A Citizen is contacting you via Twitter using Tweet My Council")
   end
 end
 
