@@ -35,6 +35,15 @@ get '/api/authority.json' do
   end
 end
 
+# Receive email via Mailgun on Heroku
+get '/email/receive' do
+   # Log some of this
+   puts "Received email from #{params['from']} to #{params['recipient']} with subject #{params['subject']}:"
+   puts "Stripped text: #{params['stripped-text']}"
+
+   render :text => "OK"
+end
+
 # Set config from local file for development (and use environment variables on Heroku)
 if File.exists? 'configuration.yaml'
   configuration = YAML.load_file('configuration.yaml')
