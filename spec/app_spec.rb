@@ -88,5 +88,20 @@ describe 'The Tweet My Council App' do
         respond_to_tweet(status)
       end
     end
+
+    it "should shorten the RT to council to 140 characters and add a link to the original tweet if necessary" do
+      status = mock(:geo => mock(:coordinates => [-33.8736, 151.2076]), :user => user, :id => 1001, :id_str => "1001",
+          :text => "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234 #tmyc")
+      # This message is the maximum possible in Twitter
+      status.text.length.should == 140
+
+      authority = mock(:twitter_screen_name => "@mycouncil")
+      Geo2gov.should_receive(:new).with("151.2076,-33.8736").and_return(mock(:lga_code => "LGA123"))
+      Authority.should_receive(:find_by_lga_code).with(123).and_return(authority)
+      # The link at the end will be shortened to 20 characters (by Twitter)
+      Twitter.should_receive(:update).with("@mycouncil RT @matthewlandauer: 123456789012345678901234567890123456789012345678901234567890123456789012345678901234... https://twitter.com/matthewlandauer/status/1001")
+
+      respond_to_tweet(status)
+    end
   end
 end

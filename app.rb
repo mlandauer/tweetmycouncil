@@ -65,7 +65,13 @@ def respond_to_tweet(status)
     authority = Authority.find_by_location("#{status.geo.coordinates[1]},#{status.geo.coordinates[0]}")
     if authority
       if authority.twitter_screen_name
-        Twitter.update("#{authority.twitter_screen_name} RT @#{status.user.screen_name}: #{status.text.gsub(hashtag, '')}")
+        message = "#{authority.twitter_screen_name} RT @#{status.user.screen_name}: #{status.text.gsub(hashtag, '')}"
+        if message.length > 140
+          # Truncate the message to 116 characters so that we can append "... " and the url of the original tweet which
+          # will get shortened to 20 characters
+          message = message[0..115] + "... " + "https://twitter.com/#{status.user.screen_name}/status/#{status.id_str}"
+        end
+        Twitter.update(message)
       elsif authority.contact_email
         AuthorityMailer.email(authority.contact_email, status.text.gsub(hashtag, ''), "https://twitter.com/#{status.user.screen_name}/status/#{status.id_str}").deliver
       end
