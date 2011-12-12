@@ -13,13 +13,20 @@ describe 'The Tweet My Council App' do
 
   describe "receiving email" do
     it "should record the email when it receives one" do
-      EmailReply.should_receive(:create!).with(:from => "matthew@openaustralia.org", :in_reply_to_status_id => "123456",
+      EmailReply.should_receive(:create!).with(
+        :from => "matthew@openaustralia.org",
+        :in_reply_to_status_id => "123456",
+        :in_reply_to_screen_name => "matthewlandauer",
         :subject => "The council replies to your tweet",
-        :stripped_text => 'This is our reply', :full_text => 'This is our reply. And includes the footer')
+        :stripped_text => 'This is our reply',
+        :full_text => 'This is our reply. And includes the footer')
 
-      post '/emails/receive', 'from' => "matthew@openaustralia.org", 'recipient' => "123456@tweetmycouncil.mailgun.org",
+      post '/emails/receive',
+        'from' => "matthew@openaustralia.org",
+        'recipient' => "matthewlandauer+123456@tweetmycouncil.mailgun.org",
         'subject' => "The council replies to your tweet",
-        'stripped-text' => 'This is our reply', 'body-plain' => 'This is our reply. And includes the footer'
+        'stripped-text' => 'This is our reply',
+        'body-plain' => 'This is our reply. And includes the footer'
     end
   end
 

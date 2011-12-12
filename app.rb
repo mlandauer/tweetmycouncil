@@ -11,6 +11,7 @@ require 'httparty'
 require 'geo2gov'
 require 'sinatra/activerecord'
 require 'uri'
+require 'haml'
 require './mailer'
 require './database'
 require './models/authority'
@@ -38,15 +39,12 @@ end
 
 # Receive email via Mailgun on Heroku
 post '/emails/receive' do
-   # Log some of this
-   puts "Received email from #{params['from']} to #{params['recipient']} with subject #{params['subject']}:"
-   puts "Stripped text: #{params['stripped-text']}"
-
-   in_reply_to_status_id = params['recipient'].split('@').first
+   in_reply_to_screen_name, in_reply_to_status_id = params['recipient'].split('@').first.split('+')
 
    # Record the incoming email in the database
-   EmailReply.create!(:from => params['from'], :in_reply_to_status_id => in_reply_to_status_id, :subject => params['subject'],
-        :stripped_text => params['stripped-text'], :full_text => params['body-plain'])
+   EmailReply.create!(:from => params['from'], :in_reply_to_status_id => in_reply_to_status_id,
+    :in_reply_to_screen_name => in_reply_to_screen_name, :subject => params['subject'],
+    :stripped_text => params['stripped-text'], :full_text => params['body-plain'])
 
    "OK"
 end
