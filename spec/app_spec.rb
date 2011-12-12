@@ -66,6 +66,18 @@ describe 'The Tweet My Council App' do
         respond_to_tweet(status)
       end
 
+      it "should truncate the response if necessary" do
+        authority = mock(:twitter_screen_name => nil, :contact_email => "foo@bar.com", :name => "My Council has a really stupidly long name that messes everything up")
+        Geo2gov.should_receive(:new).with("151.2076,-33.8736").and_return(mock(:lga_code => "LGA123"))
+        Authority.should_receive(:find_by_lga_code).with(123).and_return(authority)
+
+        AuthorityMailer.should_receive(:email).with("foo@bar.com", "This car has been abandoned for six months ", 
+          "https://twitter.com/matthewlandauer/status/1001").and_return(mock(:deliver => nil))
+        Twitter.should_receive(:update).with("@matthewlandauer My Council has a really stupidly long name that messes everything up is not on Twitter, I've emailed your tweet to foo@b...",
+          :in_reply_to_status_id => 1001)
+        respond_to_tweet(status)
+      end
+
       it "should send back the web address if authority is not on Twitter and doesn't have an email" do
         authority = mock(:twitter_screen_name => nil, :contact_email => nil, :website_url => "http://mycouncil.gov.au",
           :name => "My Council")
