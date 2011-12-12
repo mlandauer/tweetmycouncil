@@ -25,7 +25,7 @@ class AuthorityMailer < ActionMailer::Base
     @message_text, @message_url = message_text, message_url
 
     mail(:to => to, :bcc => "contact@openaustralia.org", :from => "noreply@openaustraliafoundation.org.au",
-      :subject => "A Citizen is contacting you via Twitter using Tweet My Council")
+      :subject => message_text)
   end
 end
 
