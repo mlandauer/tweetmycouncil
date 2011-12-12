@@ -41,7 +41,7 @@ post '/email/receive' do
    puts "Received email from #{params['from']} to #{params['recipient']} with subject #{params['subject']}:"
    puts "Stripped text: #{params['stripped-text']}"
 
-   render :text => "OK"
+   "OK"
 end
 
 # Set config from local file for development (and use environment variables on Heroku)
