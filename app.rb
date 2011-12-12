@@ -14,6 +14,7 @@ require 'uri'
 require './mailer'
 require './database'
 require './models/authority'
+require './models/email_reply'
 
 get "/" do
   "Hello World!"
@@ -40,6 +41,12 @@ post '/email/receive' do
    # Log some of this
    puts "Received email from #{params['from']} to #{params['recipient']} with subject #{params['subject']}:"
    puts "Stripped text: #{params['stripped-text']}"
+
+   in_reply_to_status_id = params['recipient'].split('@').first
+
+   # Record the incoming email in the database
+   EmailReply.create!(:from => params['from'], :in_reply_to_status_id => in_reply_to_status_id, :subject => params['subject'],
+        :stripped_text => params['stripped-text'], :full_text => params['body-plain'])
 
    "OK"
 end
