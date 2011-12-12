@@ -36,7 +36,7 @@ get '/api/authority.json' do
 end
 
 # Receive email via Mailgun on Heroku
-get '/email/receive' do
+post '/email/receive' do
    # Log some of this
    puts "Received email from #{params['from']} to #{params['recipient']} with subject #{params['subject']}:"
    puts "Stripped text: #{params['stripped-text']}"
