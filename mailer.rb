@@ -2,12 +2,12 @@ require 'action_mailer'
 
 if ENV['MAILGUN_SMTP_LOGIN'] && ENV['MAILGUN_SMTP_PASSWORD']
   ActionMailer::Base.smtp_settings = {
-    :port           => ENV['MAILGUN_SMTP_PORT'] 
+    :port           => ENV['MAILGUN_SMTP_PORT'],
     :address        => ENV['MAILGUN_SMTP_SERVER'],
     :user_name      => ENV['MAILGUN_SMTP_LOGIN'],
     :password       => ENV['MAILGUN_SMTP_PASSWORD'],
     :domain         => 'tweetmycouncil.herokuapp.com',
-    :authentication => :plain,
+    :authentication => :plain
   }
 else
   # Send to Mailcatcher for development because it rocks!
