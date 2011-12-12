@@ -6,7 +6,7 @@ if ENV['MAILGUN_SMTP_LOGIN'] && ENV['MAILGUN_SMTP_PASSWORD']
     :address        => ENV['MAILGUN_SMTP_SERVER'],
     :user_name      => ENV['MAILGUN_SMTP_LOGIN'],
     :password       => ENV['MAILGUN_SMTP_PASSWORD'],
-    :domain         => 'tweetmycouncil.heroku.com'
+    :domain         => 'tweetmycouncil.herokuapp.com'
     :authentication => :plain,
   }
 else
