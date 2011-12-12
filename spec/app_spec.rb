@@ -17,7 +17,7 @@ describe 'The Tweet My Council App' do
         :subject => "The council replies to your tweet",
         :stripped_text => 'This is our reply', :full_text => 'This is our reply. And includes the footer')
 
-      post '/email/receive', 'from' => "matthew@openaustralia.org", 'recipient' => "123456@tweetmycouncil.mailgun.org",
+      post '/emails/receive', 'from' => "matthew@openaustralia.org", 'recipient' => "123456@tweetmycouncil.mailgun.org",
         'subject' => "The council replies to your tweet",
         'stripped-text' => 'This is our reply', 'body-plain' => 'This is our reply. And includes the footer'
     end
