@@ -2,4 +2,7 @@
 %p Subject: #{@email.subject}
 %p= @email.stripped_text
 %p
-  This email was in reply to a tweet
+  This email was in reply to
+  %a{:href => @email.in_reply_to_twitter_url}
+    a tweet
+  from @#{@email.in_reply_to_screen_name}
