@@ -42,10 +42,12 @@ post '/emails/receive' do
    in_reply_to_screen_name, in_reply_to_status_id = params['recipient'].split('@').first.split('+')
 
    # Record the incoming email in the database
-   EmailReply.create!(:from => params['from'], :in_reply_to_status_id => in_reply_to_status_id,
+   email = EmailReply.create!(:from => params['from'], :in_reply_to_status_id => in_reply_to_status_id,
     :in_reply_to_screen_name => in_reply_to_screen_name, :subject => params['subject'],
     :stripped_text => params['stripped-text'], :full_text => params['body-plain'])
 
+   # Now let the person on Twitter know that they've received a response
+   Twitter.update("@#{in_reply_to_screen_name} You've received a reply: http://tweetmycouncil.herokuapp.com/emails/#{email.id}")
    "OK"
 end
 
