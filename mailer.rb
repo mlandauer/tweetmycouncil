@@ -28,4 +28,4 @@ class AuthorityMailer < ActionMailer::Base
 end
 
 # An example of how to use it
-#AuthorityMailer.email("Hello Council!", "https://twitter.com/matthewlandauer/status/142786606087155712").deliver
+#AuthorityMailer.email("matthew@openaustralia.org", "Hello Council!", "https://twitter.com/matthewlandauer/status/142786606087155712").deliver
