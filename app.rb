@@ -99,7 +99,7 @@ def respond_to_tweet(status)
         end
         Twitter.update(message)
       elsif authority.contact_email
-        AuthorityMailer.email(authority.contact_email, status.text.gsub(hashtag, ''), "https://twitter.com/#{status.user.screen_name}/status/#{status.id_str}").deliver
+        AuthorityMailer.email(authority.contact_email, status.text.gsub(hashtag, ''), status.user.screen_name, status.id_str).deliver
       end
     end
   end

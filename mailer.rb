@@ -21,8 +21,8 @@ ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.view_paths= File.join(File.dirname(__FILE__), 'views')
 
 class AuthorityMailer < ActionMailer::Base
-  def email(to, message_text, message_url)
-    @message_text, @message_url = message_text, message_url
+  def email(to, message_text, screen_name, message_id)
+    @message_text, @screen_name, @message_id = message_text, screen_name, message_id
 
     mail(:to => to, :bcc => "contact@openaustralia.org", :from => "noreply@openaustraliafoundation.org.au",
       :subject => message_text)
@@ -30,4 +30,4 @@ class AuthorityMailer < ActionMailer::Base
 end
 
 # An example of how to use it
-#AuthorityMailer.email("matthew@openaustralia.org", "Hello Council!", "https://twitter.com/matthewlandauer/status/142786606087155712").deliver
+#AuthorityMailer.email("matthew@openaustralia.org", "Hello Council!", "matthewlandauer", "142786606087155712").deliver
