@@ -24,7 +24,7 @@ class AuthorityMailer < ActionMailer::Base
   def email(to, message_text, screen_name, message_id)
     @message_text, @screen_name, @message_id = message_text, screen_name, message_id
 
-    mail(:to => to, :bcc => "contact@openaustralia.org", :from => "noreply@openaustraliafoundation.org.au",
+    mail(:to => to, :bcc => "contact@openaustralia.org", :from => "#{screen_name}+#{message_id}@tweetmycouncil.mailgun.org",
       :subject => message_text)
   end
 end
