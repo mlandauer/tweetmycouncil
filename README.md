@@ -21,12 +21,12 @@ That's OK but it would be More Awesome if you contributed back to this and we ru
 
 C'mon, have at it!
 
-Configuration
--------------
+Development
+-----------
 
-For local development, copy `configuration.yaml.example` to `configuration.yaml` and set up your Twitter credentials.
+For local development, copy `configuration.yaml.example` to `configuration.yaml` and set up your Twitter credentials. Run `bundle` to install Rubygem dependencies, then run `rake db:migrate` to set up the database.
 
-When deploying to Heroku, environment variables are used and are set with `heroku config:add CONSUMER_KEY=8N029N81`, etc.
+When deploying to Heroku, you need to set environment variables for the Twitter configuration, e.g. `heroku config:add CONSUMER_KEY=8N029N81`, etc.
 
 Contributors
 ------------
