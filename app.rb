@@ -107,7 +107,7 @@ def respond_to_tweet(status)
   # Now send a response back to the user that sent the original tweet (if necessary)
   r = response_to_tweet(status, authority)
   if r
-    message = "@#{status.user.screen_name} #{r}"    
+    message = "@#{status.user.screen_name} #{r}"
     message = message[0..136] + "..." if message.length > 140
     Twitter.update(message, :in_reply_to_status_id => status.id.to_i)
   end

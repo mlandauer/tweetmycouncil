@@ -79,7 +79,7 @@ describe 'The Tweet My Council App' do
         Geo2gov.should_receive(:new).with("151.2076,-33.8736").and_return(mock(:lga_code => "LGA123"))
         Authority.should_receive(:find_by_lga_code).with(123).and_return(authority)
 
-        AuthorityMailer.should_receive(:email).with("foo@bar.com", "This car has been abandoned for six months ", 
+        AuthorityMailer.should_receive(:email).with("foo@bar.com", "This car has been abandoned for six months ",
           "matthewlandauer", "1001").and_return(mock(:deliver => nil))
         Twitter.should_receive(:update).with("@matthewlandauer My Council is not on Twitter, I've emailed your tweet to foo@bar.com",
           :in_reply_to_status_id => 1001)

@@ -2,16 +2,16 @@
 class Geo2gov
   include HTTParty
   base_uri 'geo2gov.com.au'
-  
+
   def initialize(location)
     @response = self.class.get "http://geo2gov.com.au/json?location=#{location}"
   end
-  
+
   def lga_code
     census = @response["Census"]
     census.first["LGA"] if census && !census.empty?
   end
-  
+
   def jurisdictions
     response = @response["Response"]
     if response
@@ -20,7 +20,7 @@ class Geo2gov
       []
     end
   end
-  
+
   # Return the local government jurisdiction.
   # Doing this by a process of elimination. Eliminate Federal and State, leaving Local.
   def lga_jurisdiction
@@ -32,7 +32,7 @@ class Geo2gov
     raise "Can't figure out the local government area for lat, lng: #{@lat}, #{@lng}" if local.count > 1
     local.first
   end
-  
+
   def lga_name
     j = lga_jurisdiction
     j.split(":").last.gsub('_', ' ') + ", " + j.split(":").first if j
