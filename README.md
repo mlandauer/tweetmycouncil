@@ -28,6 +28,11 @@ For local development, copy `configuration.yaml.example` to `configuration.yaml`
 
 When deploying to Heroku, you need to set environment variables for the Twitter configuration, e.g. `heroku config:add CONSUMER_KEY=8N029N81`, etc.
 
+Thanks
+------
+
+This service would not be possible without the geo to local authority look up sevice [Geo2Gov](http://www.geo2gov.com/) - thanks!
+
 Contributors
 ------------
 
