@@ -14,6 +14,13 @@ If the council is on Twitter the original Tweet is RTed to the council. If the c
 
 We use [TweetStream](https://github.com/intridea/tweetstream) in [Event Machine](https://github.com/eventmachine/eventmachine) and [Sinatra](http://www.sinatrarb.com/), deployed on the [Heroku](http://www.heroku.com/) [Cedar stack](http://devcenter.heroku.com/articles/ruby). The [Geo2Gov service](http://www.geo2gov.com/) does the geo to local authority look up for Australia.
 
+Cool, can I fork it an use it in $COUNTRY?
+------------------------------------------
+
+That's OK but it would be More Awesome if you contributed back to this and we run a global Tweet My Council service! It should be pretty easy to detect what county the tweeter is in and use a local geo-to-authority lookup service (e.g. [Geo2Gov](http://www.geo2gov.com/) in Australia, [MapIt](http://mapit.mysociety.org/) in the UK).
+
+C'mon, have at it!
+
 Configuration
 -------------
 
