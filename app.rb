@@ -18,7 +18,7 @@ require './models/authority'
 require './models/email_reply'
 
 get "/" do
-  "Hello World!"
+  haml :index
 end
 
 get '/api' do
