@@ -17,6 +17,8 @@ require './database'
 require './models/authority'
 require './models/email_reply'
 
+set :haml, :layout => true
+
 get "/" do
   haml :index
 end
