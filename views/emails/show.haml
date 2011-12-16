@@ -1,8 +1,13 @@
-%p From: #{escape_html @email.from}
-%p Subject: #{escape_html @email.subject}
-%p= escape_html @email.stripped_text
 %p
-  This email was in reply to
+  The following email was in reply to
   %a{:href => @email.in_reply_to_twitter_url}
     a tweet
-  from @#{@email.in_reply_to_screen_name}
+  from @#{@email.in_reply_to_screen_name}:
+.well
+  %p
+    %span.label From:
+    #{escape_html @email.from}
+  %p
+    %span.label Subject:
+    #{escape_html @email.subject}
+  %p= escape_html @email.stripped_text
