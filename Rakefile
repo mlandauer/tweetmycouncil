@@ -1,8 +1,13 @@
-# require your app file first
-require './app'
 require 'sinatra/activerecord/rake'
 require 'httparty'
 require 'nokogiri'
+require 'rspec/core/rake_task'
+
+task :default => :spec
+
+RSpec::Core::RakeTask.new(:spec) do |spec|
+  spec.rspec_opts = ['--colour']
+end
 
 def google_spreadsheet_data
     f = HTTParty.get("https://spreadsheets.google.com/feeds/list/0AppM8FtCInYXdGxRZGpCY0t6eDV5aFNwSEFPWnJqV3c/od6/public/basic")
@@ -23,6 +28,8 @@ end
 namespace :db do
   desc "load authorities data into database from Google Spreadsheet (DELETES OLD AUTHORITIES DATA!)"
   task :load do
+    require './app'
+
     Authority.delete_all
     google_spreadsheet_data.each do |r|
       Authority.create!(r)
