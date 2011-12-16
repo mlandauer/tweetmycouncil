@@ -28,6 +28,7 @@ For local development:
 
 * Copy `configuration.yaml.example` to `configuration.yaml` and set up your Twitter credentials
 * Install Rubygem dependencies: `bundle`
+* Run the tests! `rake`
 * Set up the database: `rake db:migrate`
 * Import data from the Google Doc: `rake db:load`
 * Start the server: `rackup`
