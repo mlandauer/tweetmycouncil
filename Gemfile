@@ -11,6 +11,7 @@ gem "nokogiri"
 gem 'actionmailer'
 gem 'haml'
 gem "yajl-ruby"
+gem "rake"
 
 gem "activerecord"
 gem "sinatra-activerecord"
