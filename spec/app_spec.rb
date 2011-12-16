@@ -8,7 +8,7 @@ describe 'The Tweet My Council App' do
   it "says hello" do
     get '/'
     last_response.should be_ok
-    last_response.body.should == 'Hello World!'
+    last_response.body.should =~ /Hey there!/
   end
 
   describe "receiving email" do
