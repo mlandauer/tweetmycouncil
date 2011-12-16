@@ -24,7 +24,15 @@ C'mon, have at it!
 Development
 -----------
 
-For local development, copy `configuration.yaml.example` to `configuration.yaml` and set up your Twitter credentials. Run `bundle` to install Rubygem dependencies, then run `rake db:migrate` to set up the database.
+For local development:
+
+* Copy `configuration.yaml.example` to `configuration.yaml` and set up your Twitter credentials
+* Install Rubygem dependencies: `bundle`
+* Set up the database: `rake db:migrate`
+* Import data from the Google Doc: `rake db:load`
+* Start the server: `rackup`
+* Visit http://localhost:9292 to see the app
+* Tweet `#tmycdev` to interact with the bot
 
 When deploying to Heroku, you need to set environment variables for the Twitter configuration, e.g. `heroku config:add CONSUMER_KEY=8N029N81`, etc.
 
