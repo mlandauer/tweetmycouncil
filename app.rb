@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# encoding: UTF-8
 
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/lib'
 
@@ -95,9 +96,9 @@ def respond_to_tweet(status)
       if authority.twitter_screen_name
         message = "#{authority.twitter_screen_name} RT @#{status.user.screen_name}: #{status.text.gsub(hashtag, '')}"
         if message.length > 140
-          # Truncate the message to 116 characters so that we can append "... " and the url of the original tweet which
+          # Truncate the message to 118 characters so that we can append "… " and the url of the original tweet which
           # will get shortened to 20 characters
-          message = message[0..115] + "... " + "https://twitter.com/#{status.user.screen_name}/status/#{status.id_str}"
+          message = message[0..117] + "… " + "https://twitter.com/#{status.user.screen_name}/status/#{status.id_str}"
         end
         Twitter.update(message)
       elsif authority.contact_email
@@ -110,7 +111,7 @@ def respond_to_tweet(status)
   r = response_to_tweet(status, authority)
   if r
     message = "@#{status.user.screen_name} #{r}"
-    message = message[0..136] + "..." if message.length > 140
+    message = message[0..138] + "…" if message.length > 140
     Twitter.update(message, :in_reply_to_status_id => status.id.to_i)
   end
 end

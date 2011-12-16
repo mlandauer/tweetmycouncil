@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe 'The Tweet My Council App' do
@@ -93,7 +94,7 @@ describe 'The Tweet My Council App' do
 
         AuthorityMailer.should_receive(:email).with("foo@bar.com", "This car has been abandoned for six months ", "matthewlandauer",
           "1001").and_return(mock(:deliver => nil))
-        Twitter.should_receive(:update).with("@matthewlandauer My Council has a really stupidly long name that messes everything up is not on Twitter, I've emailed your tweet to foo@b...",
+        Twitter.should_receive(:update).with("@matthewlandauer My Council has a really stupidly long name that messes everything up is not on Twitter, I've emailed your tweet to foo@bar…",
           :in_reply_to_status_id => 1001)
         respond_to_tweet(status)
       end
@@ -131,7 +132,7 @@ describe 'The Tweet My Council App' do
       Geo2gov.should_receive(:new).with("151.2076,-33.8736").and_return(mock(:lga_code => "LGA123"))
       Authority.should_receive(:find_by_lga_code).with(123).and_return(authority)
       # The link at the end will be shortened to 20 characters (by Twitter)
-      Twitter.should_receive(:update).with("@mycouncil RT @matthewlandauer: 123456789012345678901234567890123456789012345678901234567890123456789012345678901234... https://twitter.com/matthewlandauer/status/1001")
+      Twitter.should_receive(:update).with("@mycouncil RT @matthewlandauer: 12345678901234567890123456789012345678901234567890123456789012345678901234567890123456… https://twitter.com/matthewlandauer/status/1001")
 
       respond_to_tweet(status)
     end
