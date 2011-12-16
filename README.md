@@ -39,6 +39,7 @@ Contributors
 * Henare Degan
 * Matthew Landauer
 * Gavin Carr
+* Katherine Szuminska
 
 License
 -------
