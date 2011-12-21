@@ -5,6 +5,7 @@ $LOAD_PATH.unshift File.dirname(__FILE__) + '/lib'
 
 require 'sinatra'
 require "sinatra/json"
+require 'rack/contrib/jsonp'
 require 'tweetstream'
 require 'yaml'
 require 'twitter'
@@ -18,6 +19,7 @@ require './database'
 require './models/authority'
 require './models/email_reply'
 
+use Rack::JSONP
 set :haml, :layout => true
 
 get "/" do

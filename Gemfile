@@ -3,6 +3,7 @@ source "http://gemcutter.org"
 
 gem "sinatra"
 gem "sinatra-contrib"
+gem "rack-contrib"
 gem "tweetstream"
 gem "thin"
 gem "twitter"
